@@ -6,7 +6,9 @@ import Obj from "./Obj";
 
 const Scene = () => {
   const [isDragging, setIsDragging] = useState(false);
-  const floorPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+
+  // Plane's length is INFINITY
+  const floorPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
   return (
     <Canvas>
       <ambientLight intensity={0.5} />
@@ -38,7 +40,7 @@ const Scene = () => {
 
       <OrthographicCamera makeDefault zoom={20} position={[40, 40, 40]} />
 
-      <OrbitControls minZoom={10} maxZoom={50} enabled={!isDragging} />
+      <OrbitControls minZoom={10} maxZoom={50} enabled={false} />
     </Canvas>
   );
 };

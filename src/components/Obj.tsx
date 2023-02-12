@@ -7,14 +7,20 @@ import { atom, useAtom } from "jotai";
 export const posAtom = atom([0, 1.5, 0]);
 export const pos2Atom = atom([0, 0.05, 0]);
 
+export const pos3Atom = atom([0, 0, 0]);
+
 interface ObjProps {
   setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
   floorPlane: THREE.Plane;
 }
 
 function Obj({ setIsDragging, floorPlane }: ObjProps) {
+  // object
   const [pos, setPos] = useAtom(posAtom);
+  // red indicator
   const [pos2, setPos2] = useAtom(pos2Atom);
+  // intersect point
+  const [pos3, setPos3] = useAtom(pos3Atom);
 
   const { size, viewport } = useThree();
   const aspect = size.width / viewport.width;
@@ -49,11 +55,17 @@ function Obj({ setIsDragging, floorPlane }: ObjProps) {
           0.05,
           Math.floor(planeIntersectPoint.z) + 0.5,
         ]);
+        setPos3([
+          planeIntersectPoint.x,
+          planeIntersectPoint.y,
+          planeIntersectPoint.z,
+        ]);
       }
 
       setIsDragging(active);
 
       api.start({
+        // this is for bouncing back
         //position: active ? [x / aspect, -y / aspect, 0] : [0, 0, 0],
         position: pos,
         scale: active ? 1.2 : 1,
